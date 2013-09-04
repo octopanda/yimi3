@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=2.0,width=device-width" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="js/jquery.js"></script>
+	<script>
+		function showDate(){
+			var date = new Date();
+			var strDate = date.getFullYear() + "." + (date.getUTCMonth() + 1) + "." + date.getDate();
+			var strTime = (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":" + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes());
+			var strWeek = "星期" + ["日", "一", "二", "三", "四", "五", "六"][date.getDay()];
+			document.getElementById("clock").innerHTML = "<p class=\"date\">" + strDate + "</p><p class=\"time\">" + strTime + " " + strWeek + "</p>";
+		}
+		$(function(){
+			var url = "http://demo.alphatr.com/weather/info.php";
+			showDate();
+			var dynamicClock = setInterval("showDate()", 1000);
+			$.getJSON(url + "?get=weather&citycode=" + 101010200 + "&callback=?" , function (data) {
+				$("#weather").html("<p class=\"deg\">" + data.weatherinfo.temp1 + "</p><p class=\"forecast\">" + data.weatherinfo.weather1 + "</p>");
+			})
+		});
+	</script>
+</head>
+<body>
+<div class="section-1">
+	<div id="clock" class="clock">
+	</div>
+</div>
+<div class="section-2">
+	<div id="weather">
+		正在加载天气...
+	</div>
+</div>
+<div class="section-3">
+	<div id="lunar">
+		<p class="date">农历八月十五</p>
+		<p class="year">蛇年&nbsp;&nbsp;中秋节</p>
+	</div>
+</div>
+</body>
+</html>
